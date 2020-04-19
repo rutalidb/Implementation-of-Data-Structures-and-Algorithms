@@ -91,11 +91,6 @@ public class MDS {
 			if (list != null && !list.isEmpty())
 			{
 				item.setProductDescription(list);
-			}
-
-			//remove previous description list from the map
-			if(list != null && !list.isEmpty())
-			{
 				deleteProductDescription(id, descriptionsTemp);
 			}
 		}
