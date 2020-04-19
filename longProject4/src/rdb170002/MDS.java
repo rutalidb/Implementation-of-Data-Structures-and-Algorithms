@@ -1,5 +1,5 @@
 /**
- * @author 
+ * @author Ayesha Gurnani, Rutali Bandivadekar, Viraj Mavani
  */
 
 package rdb170002;
@@ -19,7 +19,7 @@ public class MDS {
     private Map<Long, Map<Money, Integer>> setMap;
 
     /**
-     * <p>Inner class represents a product marketed by Amazon. A product has attributes like id, price and description.</p>
+     * Inner class represents a product marketed by Amazon. A product has attributes like id, price and description.</p>
      */
     private static class Entry implements Comparable {
         private Long id;
@@ -71,26 +71,27 @@ public class MDS {
     }
 
     /**
-     * <p>Constructor for MDS. Initializes entryMap and setMap for
-     * the <b>product catalog</b></p>
-     */
+	 * Constructor of MDS 
+	 */
 
     public MDS() {
         entryMap = new HashMap<>();
         setMap = new HashMap<>();
     }
 
-    /**
-     * <p>Inserts a new product whose description is given
-     * in the list.  If a product with the same id already exists, then its
-     * description and price are replaced by the new values, unless list
-     * is null or empty, in which case, just the price is updated.</p>
-     *
-     * @param id product's unique identifier
-     * @param price product's price
-     * @param list product's description
-     * @return 1 if the item is new, and 0 otherwise.
-     */
+	/**
+	 * a. Insert a new item whose description is given
+	 in the list.  If an entry with the same id already exists, then its
+	 description and price are replaced by the new values, unless list
+	 is null or empty, in which case, just the price is updated. 
+	 Returns 1 if the item is new, and 0 otherwise.
+
+	 * @param id unique identification of product
+	 * @param price price of the product
+	 * @param list description of the product
+	 * @return 
+	 */
+
     public int insert(long id, Money price, java.util.List<Long> list) {
         int result = entryMap.get(id) == null ? 1 : 0;
 
@@ -123,19 +124,25 @@ public class MDS {
 
         return result;
     }
-
-    /**
-     * <p>Finds the product in the product catalog given it's id</p>
-     *
-     * @param id product's unique identifier
-     * @return price of the product if found and 0 otherwise
-     */
+	
+	/**
+	 * b. Find(id): return price of item with given id (or 0, if not found).
+	 * @param id unique identification of product
+	 * @return price of the product
+	 */
+	
     public Money find(long id) {
         Money money = entryMap.get(id) != null ? entryMap.get(id).price : new Money();
         return money;
     }
 
-
+	/**
+	 *  c. Delete(id): delete item from storage.  Returns the sum of the
+       long ints that are in the description of the item deleted,
+       or 0, if such an id did not exist.
+	 * @param id unique identification of product
+	 * @return 
+	 */
     /**
      * <p>Deletes a product from the product catalog given it's id.</p>
      *
@@ -378,10 +385,6 @@ public class MDS {
          */
         public String toString() {
             String str = String.valueOf(c);
-			// if (c < 10) {
-			// 	return d + ".0" + str;
-			// }
-			//str = "0" + str;
             return d + "." + str;
         }
 
