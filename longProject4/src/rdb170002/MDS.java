@@ -8,27 +8,19 @@ import java.util.*;
 
 public class MDS {
 
-    /**
-     * <p>entryMap: is a map with id as it's key and Entry as it's value</p>
-     *
-     */
-    private Map<Long, Entry> entryMap;
-    /**
-     * <p>setMap: is a map of map with description as it's key and map of price and price's counter as it's value</p>
-     */
+	//Map with id as key and entry as value
+	private Map<Long, Entry> entryMap;
+	
+	//Map with map of map with description as key and map of price and price's counter as value
     private Map<Long, Map<Money, Integer>> setMap;
 
-    /**
-     * Inner class represents a product marketed by Amazon. A product has attributes like id, price and description.</p>
-     */
+
     private static class Entry implements Comparable {
         private Long id;
         private Money price;
-        private Set<Long> description;
-
-        /**
-         * <p>constructor for creating a product.</p>
-         *
+		private Set<Long> description;
+		
+		/**
          * @param id          unique identifier of a product
          * @param price       price of the product
          * @param description description of a product
@@ -39,9 +31,6 @@ public class MDS {
             this.description = description;
         }
 
-        /**
-         * @return hashcode for the product based on it's id
-         */
         @Override
         public int hashCode() {
             return Long.hashCode(this.id);
@@ -50,20 +39,16 @@ public class MDS {
         /**
          * @param o product to be compared
          * @return int value based upon comparision.
-         * 1, if Object o's price is smaller than current object's price
-         * 0, if Object o's price is equal to the current object's price
-         * -1, if Object o's price is greater than current object's price
+         * 1, if Object o's price is smaller than object's price
+         * 0, if Object o's price is equal to the object's price
+         * -1, if Object o's price is greater than object's price
          */
         @Override
         public int compareTo(Object o) {
             return this.price.compareTo(((Entry) o).price);
         }
 
-        /**
-         * <p>toString() method to print product's price</p>
-         *
-         * @return price of the product in string format
-         */
+        
         @Override
         public String toString() {
             return price.toString();
@@ -141,14 +126,9 @@ public class MDS {
        long ints that are in the description of the item deleted,
        or 0, if such an id did not exist.
 	 * @param id unique identification of product
-	 * @return 
+	 * @return sum of int of the description of product that is deleted
 	 */
-    /**
-     * <p>Deletes a product from the product catalog given it's id.</p>
-     *
-     * @param id product's unique identifier
-     * @return the sum of the long ints that are in the description of the product deleted, or 0, if such an id did not exist in the product catalog.
-     */
+
     public long delete(long id) {
         long sum = 0;
         if (entryMap.get(id) != null) {
@@ -164,13 +144,17 @@ public class MDS {
         return sum;
     }
 
+	/**
+	 *
+       d. FindMinPrice(n): given a long int, find items whose description
+       contains that number (exact match with one of the long ints in the
+       item's description), and return lowest price of those items.
+       Return 0 if there is no such item.
+    
+	 * @param n number for searching in description of all products
+	 * @return lowest priced product
+	 */
 
-    /**
-     * <p>Find products whose description contains a given number (exact match with one of the long ints in the products's description)</p>
-     *
-     * @param n a number to be searched in description of all the products available in the product catalog.
-     * @return lowest price of those products. Return 0 if there is no such product in the product catalog.
-     */
     public Money findMinPrice(long n) {
         Money money = new Money();
         TreeMap<Money, Integer> map = (TreeMap<Money, Integer>) setMap.get(n);
@@ -182,11 +166,13 @@ public class MDS {
 
 
     /**
-     * <p>Find products whose description contains a given number (exact match with one of the long ints in the products's description)</p>
-     *
-     * @param n a number to be searched in description of all the products available in the product catalog.
-     * @return highest price of those products. Return 0 if there is no such product in the product catalog.
-     */
+    * e. FindMaxPrice(n): given a long int, find items whose description
+      contains that number, and return highest price of those items.
+      Return 0 if there is no such item.
+     * @param n number for searching in description of all products
+	 * @return maximum priced product
+	 */
+
     public Money findMaxPrice(long n) {
         Money money = new Money();
         TreeMap<Money, Integer> map = (TreeMap<Money, Integer>) setMap.get(n);
@@ -197,14 +183,15 @@ public class MDS {
         return money;
     }
 
-    /**
-     * <p>Find the number of products whose description contains n, and in addition, their prices fall within the given range, [low, high]</p>
-     *
-     * @param n a number to be searched in description of all the products available in the product catalog.
-     * @param low lower limit of the product's price
-     * @param high upper limit of the product's price
-     * @return count of products for which matching criteria is satisfied
-     */
+	/**
+	 * f. FindPriceRange(n,low,high): given a long int n, find the number
+       of items whose description contains n, and in addition,
+       their prices fall within the given range, [low, high].
+	 * @param n number for searching in description of all products
+	 * @param low lower price of item to be found
+	 * @param high higher price of item to be found
+	 * @return
+	 */
     public int findPriceRange(long n, Money low, Money high) {
         TreeMap<Money, Integer> map = (TreeMap<Money, Integer>) setMap.get(n);
         int i = 0;
@@ -216,15 +203,17 @@ public class MDS {
         return i;
     }
 
+	/**
+	 *  g. PriceHike(l,h,r): increase the price of every product, whose id is
+       in the range [l,h] by r%.  Discard any fractional pennies in the new
+	   prices of items.  Returns the sum of the net increases of the prices.
+	   
+	 * @param l lower limit 
+	 * @param h higher limit for unique idetification 
+	 * @param rate rate at which price is increased
+	 * @return sum of all price hike for the range given
+	 */
 
-    /**
-     * <p>Increases the price of products whose id is in the range specified by l and h, both inclusive by r%.</p>
-     *
-     * @param l lower limit of product's unique identifier
-     * @param h upper limit of product's unique identifier
-     * @param rate rate with which price is increased
-     * @return cumulative price hike for all the products whose id's fall in the range specified by l and h.
-     */
     public Money priceHike(long l, long h, double rate) {
         long hike = 0;
         while (l <= h) {
@@ -244,15 +233,17 @@ public class MDS {
         return new Money(hike / 100, Long.valueOf(hike % 100).intValue());
     }
 
+	/**
+	 * h. RemoveNames(id, list): Remove elements of list from the description of id.
+      It is possible that some of the items in the list are not in the
+      id's description.  Return the sum of the numbers that are actually
+	  deleted from the description of id.  Return 0 if there is no such id.
+	  
+	 * @param id unique identification of the product
+	 * @param list item's list to be removed from product description
+	 * @return sum of the numbers that are deleted from description of product
+	 */
 
-    /**
-     * <p>Remove elements of list from the description of a product, given it's id. It is possible that some of the items in the list are not in the
-     * description of an intended product </p>
-     *
-     * @param id product's unique identifier
-     * @param list list of items which needs to be removed from the description of an intended product
-     * @return the sum of the numbers that are actually deleted from the description of a particular product.  Return 0 if there is no such id in the product catalog.
-     */
     public long removeNames(long id, java.util.List<Long> list) {
         Entry e = entryMap.get(id);
         long sum = 0;
@@ -267,41 +258,25 @@ public class MDS {
         return sum;
     }
 
-
-    /**
-     * <p> Money class represents the product's price in terms of dollars and cents</p>
-     */
+	/**
+	 * Money class for representing money 
+	 */
     public static class Money implements Comparable<Money> {
         long d;
         int c;
 
-
-        /**
-         * <p>Constructor for initializing dollar and cents to zero.</p>
-         */
         public Money() {
             d = 0;
             c = 0;
 
         }
 
-        /**
-         * <p>Parameterized constructor for initializing dollars and cents.</p>
-         *
-         * @param d product's price specified by dollars
-         * @param c product's price specified by cents
-         */
         public Money(long d, int c) {
             this.d = d;
             this.c = c;
 
-        }
-
-        /**
-         * <p>Parameterized constructor for initializing dollars and cents given a price in the form of string</p>
-         *
-         * @param s String representation of product's price
-         */
+		}
+		
         public Money(String s) {
             String[] part = s.split("\\.");
             int len = part.length;
@@ -322,52 +297,31 @@ public class MDS {
 
         }
 
-        /**
-         * <p>Number of dollars in product's price</p>
-         *
-         * @return dollars associated with product's price
-         */
         public long dollars() {
             return d;
         }
 
-        /**
-         * @return hash code of money object
-         */
         @Override
         public int hashCode() {
             return Double.hashCode(Double.valueOf(this.toString()));
         }
 
-        /**
-         * <p>Number of Cents in product's price</p>
-         *
-         * @return cents associated with product's price
-         */
         public int cents() {
             return c;
         }
-
-        /**
-         * <p>This function checks for the equality of two money objects</p>
-         *
-         * @param obj object to be checked for equality
-         * @return true if objects are equal, false otherwise.
-         */
+		
+		/**
+		 * Checks if money is equal or not
+		 */
         @Override
         public boolean equals(Object obj) {
             return this.d == ((Money) obj).d && this.c == ((Money) obj).c;
         }
 
 
-        /**
-         * <p>Compares the money object with another money object</p>
-         *
-         * @param other object to be compared with current money object
-         * @return 1, if current money object is greater than other money object
-         * 0, if current money object is equal to other money object
-         * -1, if current money object is smaller than other money object
-         */
+       /**
+		* Compare method for money objects
+	    */
         public int compareTo(Money other) {
             if (this.d == other.d && this.c == other.c) return 0;
             if (this.d == other.d) {
@@ -376,13 +330,8 @@ public class MDS {
             }
             if (this.d < other.d) return -1;
             return 1;
-        }
-
-        /**
-         * <p>String representation of the money object</p>
-         *
-         * @return the string representation of the money object
-         */
+		}
+		
         public String toString() {
             String str = String.valueOf(c);
             return d + "." + str;
